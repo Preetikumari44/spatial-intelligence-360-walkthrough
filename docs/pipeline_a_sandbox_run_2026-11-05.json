@@ -1,0 +1,28 @@
+{
+ "date": "2026-11-05",
+ "environment": "Linux sandbox, 1 vCPU, no COLMAP, no Open3D, no PyTorch",
+ "input": "synthetic parallax room video, 120 frames, 640x480, 15 fps",
+ "colmap_found": false,
+ "frame_extraction": {
+  "source_frames": 120,
+  "sampled": 60,
+  "kept": 17,
+  "dropped_blur": 6,
+  "dropped_duplicate": 37,
+  "transitions": 0,
+  "sampling": "adaptive",
+  "effective_fps": 2.12,
+  "seconds": 0.62
+ },
+ "viewpoint_tour": {
+  "viewpoints": 17,
+  "links": 32,
+  "link_kinds": {
+   "sequence": 32
+  },
+  "visible_hotspots": 13,
+  "validation_passed": true,
+  "seconds": 0.36,
+  "has_poses": false
+ }
+}

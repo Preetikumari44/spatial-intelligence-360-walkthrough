@@ -1,0 +1,40 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spatial-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/spatial}
+    username: ${DB_USER:spatial}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+    # an existing database that already has the tables is adopted, never recreated
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
+app:
+  # both services default to <repo>/data/storage so they share one folder without any setup
+  storage-root: ${STORAGE_ROOT:../data/storage}
+  ai-url: ${AI_SERVICE_URL:http://localhost:8000}
+  # how many processing jobs may run at once; 1 keeps memory use predictable on a laptop
+  job-concurrency: ${JOB_CONCURRENCY:1}
+  jwt-secret: ${JWT_SECRET:}
+  jwt-ttl-minutes: ${JWT_TTL_MINUTES:720}
+  cors-origins: ${CORS_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
+  # Local-development access bypass. OFF unless DEV_ACCESS=true. Never set it on a shared or public server.
+  # It only acts as an EXISTING user (DEV_ACCESS_EMAIL, or the oldest registered one). See docs/DEV_ACCESS.md.
+  dev-access:
+    enabled: ${DEV_ACCESS:false}
+    user-email: ${DEV_ACCESS_EMAIL:}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

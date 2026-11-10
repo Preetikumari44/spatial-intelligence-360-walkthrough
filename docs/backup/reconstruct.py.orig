@@ -1,0 +1,207 @@
+"""Camera poses and a sparse point cloud: COLMAP when installed, otherwise the built-in OpenCV pipeline (flat video)."""
+import json
+import os
+import shutil
+import subprocess
+from pathlib import Path
+
+import cv2
+import numpy as np
+
+from . import config, geometry, hardware, jobs, report, sfm
+from .errors import Cancelled, PipelineError
+
+FACE_YAWS = (0, 90, 180, 270)
+
+
+def _run(cmd, label, ctx):
+    env = dict(os.environ, QT_QPA_PLATFORM="offscreen")
+    ctx.check()
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env)
+    ctx.processes.append(proc)
+    try:
+        out, err = proc.communicate(timeout=config.COLMAP_TIMEOUT)
+    except subprocess.TimeoutExpired as e:
+        proc.kill()
+        raise PipelineError(f"COLMAP {label} timed out after {config.COLMAP_TIMEOUT}s", 504) from e
+    finally:
+        if proc in ctx.processes:
+            ctx.processes.remove(proc)
+    if ctx.cancel_event.is_set():
+        raise Cancelled()
+    if proc.returncode != 0:
+        tail = (err or out or "")[-600:]
+        raise PipelineError(f"COLMAP {label} failed: {tail}", 500)
+
+
+def _prepare_images(frames_dir: Path, work: Path, frames, is_360):
+    images = work / "images"
+    images.mkdir(parents=True)
+    if not is_360:
+        for f in frames:
+            shutil.copy2(frames_dir / f["name"], images / f["name"])  # symlinks need admin rights on Windows
+        return images
+    for f in frames:
+        img = cv2.imread(str(frames_dir / f["name"]))
+        if img is None:
+            continue
+        stem = Path(f["name"]).stem
+        for k, yaw in enumerate(FACE_YAWS):
+            cv2.imwrite(str(images / f"{stem}__{k}.jpg"), geometry.equirect_to_persp(img, yaw), [cv2.IMWRITE_JPEG_QUALITY, 92])
+    return images
+
+
+def _best_model(work: Path, ctx):
+    sparse = work / "sparse"
+    best, best_count = None, 0
+    for model in sorted(p for p in sparse.iterdir() if p.is_dir()) if sparse.exists() else []:
+        txt = work / f"txt_{model.name}"
+        txt.mkdir(exist_ok=True)
+        _run([shutil.which(config.COLMAP_BIN), "model_converter", "--input_path", str(model),
+              "--output_path", str(txt), "--output_type", "TXT"], "model_converter", ctx)
+        count = len(geometry.parse_images((txt / "images.txt").read_text()))
+        if count > best_count:
+            best, best_count = txt, count
+    return best, best_count
+
+
+def _colmap_sfm(colmap, frames_dir, frames, work, is_360, ctx):
+    images = _prepare_images(frames_dir, work, frames, is_360)
+    total_images = len(list(images.iterdir()))
+    db = work / "database.db"
+    gpu = "0"  # never use a GPU here: the target machine has no CUDA, and COLMAP's GPU SIFT needs it
+
+    ctx.update("sfm", 12, f"COLMAP feature extraction on {total_images} images (CPU)")
+    _run([colmap, "feature_extractor", "--database_path", str(db), "--image_path", str(images),
+          "--ImageReader.single_camera", "1", "--ImageReader.camera_model", "SIMPLE_RADIAL",
+          "--SiftExtraction.use_gpu", gpu, "--SiftExtraction.max_image_size", str(config.SFM_MAX_SIDE)], "feature_extractor", ctx)
+    ctx.update(progress=25, message="COLMAP feature matching")
+    if total_images <= 300:
+        _run([colmap, "exhaustive_matcher", "--database_path", str(db), "--SiftMatching.use_gpu", gpu], "exhaustive_matcher", ctx)
+    else:
+        overlap = "20" if is_360 else "12"
+        _run([colmap, "sequential_matcher", "--database_path", str(db), "--SiftMatching.use_gpu", gpu,
+              "--SequentialMatching.overlap", overlap, "--SequentialMatching.loop_detection", "0"], "sequential_matcher", ctx)
+    ctx.update(progress=45, message="COLMAP mapping (camera poses)")
+    (work / "sparse").mkdir()
+    _run([colmap, "mapper", "--database_path", str(db), "--image_path", str(images),
+          "--output_path", str(work / "sparse")], "mapper", ctx)
+
+    model_dir, registered = _best_model(work, ctx)
+    if model_dir is None or registered < 6:
+        raise PipelineError(f"COLMAP registered only {registered} of {total_images} images, which is not enough for a model. "
+                            "Film slowly, keep objects in view across frames, avoid blank walls and low light.", 422)
+    cams = geometry.parse_cameras((model_dir / "cameras.txt").read_text())
+    poses = geometry.parse_images((model_dir / "images.txt").read_text())
+    points, colors = geometry.parse_points((model_dir / "points3D.txt").read_text())
+    shutil.rmtree(images, ignore_errors=True)  # the copies are only needed while COLMAP runs
+    return {"cams": cams, "poses": poses, "points": points, "colors": colors, "total_images": total_images,
+            "meta": {"backend": "colmap", "frames_used": len(frames), "frames_registered": registered, "device": "cpu"}}
+
+
+def choose_backend(is_360: bool):
+    colmap = shutil.which(config.COLMAP_BIN)
+    want = config.SFM_BACKEND
+    if want == "colmap":
+        if not colmap:
+            raise PipelineError("SFM_BACKEND=colmap but COLMAP was not found on PATH. Install COLMAP or set COLMAP_BIN; "
+                                "no reconstruction was attempted.", 503)
+        return "colmap", colmap
+    if want == "opencv" or (want == "auto" and not colmap):
+        if is_360:
+            raise PipelineError("360° equirectangular video needs COLMAP (not found). The built-in OpenCV pipeline handles flat video only. "
+                                "Install COLMAP and set COLMAP_BIN, or upload a normal video. No reconstruction was attempted.", 503)
+        return "opencv", None
+    return "colmap", colmap
+
+
+def run(frames_rel: str, work_rel: str, is_360: bool, ctx=None):
+    ctx = ctx or jobs.get(None)
+    backend, colmap = choose_backend(is_360)
+    frames_dir = config.resolve(frames_rel)
+    meta = json.loads((frames_dir / "frames.json").read_text())
+    frames = meta["frames"]
+    work = config.resolve(work_rel)
+    if work.exists():
+        shutil.rmtree(work)
+    work.mkdir(parents=True)
+
+    free = hardware.available_ram_mb()
+    if free is not None and free < config.MEMORY_RESERVE_MB + 800:
+        raise PipelineError(f"Only {free} MB of RAM is free; reconstruction needs about {config.MEMORY_RESERVE_MB + 800} MB. "
+                            "Close other programs (browser tabs, other jobs) and retry.", 503)
+
+    dev = hardware.select_devices()
+    report.set_execution(work, sfm_backend=backend, sfm_device="cpu", open3d_device=dev["open3d_device"],
+                         torch_device=dev["torch_device"], cpu_threads=hardware.cpu_threads(), device_notes=dev["notes"],
+                         cuda_required=False)
+    ctx.update("sfm", 11, f"Structure from motion with {'COLMAP' if backend == 'colmap' else 'the built-in OpenCV pipeline'} on the CPU")
+    try:
+        if backend == "colmap":
+            res = _colmap_sfm(colmap, frames_dir, frames, work, is_360, ctx)
+        else:
+            res = sfm.run(frames_dir, frames, ctx)
+            res["total_images"] = res["meta"]["frames_used"]
+    except Cancelled:
+        raise
+    except PipelineError as e:
+        report.stage(work, "camera_poses", "failed", str(e), backend=backend)
+        raise
+    ctx.update(progress=66, message="Normalising the coordinate frame and writing the sparse point cloud")
+
+    cams, poses, points, colors = res["cams"], res["poses"], res["points"], res["colors"]
+    total_images, registered = res["total_images"], len(poses)
+
+    names = list(poses)
+    centers = np.array([poses[n]["center"] for n in names])
+    axes = np.array([poses[n]["axes"] for n in names])
+    Rn, origin = geometry.world_normalisation(centers, axes, points)
+    to_new = lambda p: (np.asarray(p) - origin) @ Rn.T  # noqa: E731
+
+    new_points = to_new(points) if len(points) else np.zeros((0, 3))
+    if len(new_points) >= 30:
+        lo = np.percentile(new_points, 1, axis=0)
+        hi = np.percentile(new_points, 99, axis=0)
+        extents = {"x": float(hi[0] - lo[0]), "y": float(hi[1] - lo[1]), "z": float(hi[2] - lo[2])}
+    else:
+        c = to_new(centers)
+        extents = {k: float(np.ptp(c[:, i])) for i, k in enumerate("xyz")}
+
+    images_out = {}
+    for n in names:
+        images_out[n] = {"center": to_new(poses[n]["center"]).tolist(),
+                         "axes": (poses[n]["axes"] @ Rn.T).tolist(),
+                         "camera_id": poses[n]["camera_id"]}
+
+    sample = np.random.default_rng(0).permutation(len(new_points))[:20000]
+    preview = {"count": int(len(sample)), "units": "model_units",
+               "positions": np.round(new_points[sample], 4).flatten().tolist(),
+               "colors": colors[sample].flatten().tolist()}
+    (work / "points_preview.json").write_text(json.dumps(preview))
+    np.savez_compressed(work / "points_full.npz", positions=new_points.astype(np.float32), colors=colors.astype(np.uint8))
+
+    if is_360:
+        registered_frames = {Path(n).stem.split("__")[0] for n in names}
+        # a panorama node needs at least two of its four faces registered
+        registered_frames = {s for s in registered_frames if sum(1 for n in names if n.startswith(s + "__")) >= 2}
+    else:
+        registered_frames = {Path(n).stem for n in names}
+    frame_status = [{"stem": Path(f["name"]).stem, "name": f["name"], "file": f["file"], "t": f["t"],
+                     "frame_index": f["frame_index"], "registered": Path(f["name"]).stem in registered_frames}
+                    for f in frames]
+    if len(registered_frames) < 4:
+        report.stage(work, "camera_poses", "failed", f"Only {len(registered_frames)} frames were registered", backend=backend)
+        raise PipelineError(f"Only {len(registered_frames)} frames were registered; cannot build a navigable tour.", 422)
+
+    recon = {"is_360": is_360, "units": "model_units", "cameras": {str(k): v for k, v in cams.items()},
+             "images": images_out, "frames": frame_status, "extents": extents,
+             "total_images": total_images, "registered_images": registered, "point_count": int(len(new_points)),
+             "sfm": res["meta"]}
+    (work / "reconstruction.json").write_text(json.dumps(recon))
+    report.stage(work, "camera_poses", "ok",
+                 f"{registered} of {total_images} images registered, {len(new_points)} sparse points ({res['meta']['backend']})",
+                 backend=res["meta"]["backend"], registered_images=registered, total_images=total_images,
+                 points=int(len(new_points)), details=res["meta"])
+    return {"registered_images": registered, "total_images": total_images,
+            "registered_frames": len(registered_frames), "total_frames": len(frames),
+            "points": int(len(new_points)), "extents_model_units": extents, "backend": res["meta"]["backend"]}

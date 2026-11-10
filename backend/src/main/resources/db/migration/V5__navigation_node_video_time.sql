@@ -1,0 +1,1 @@
+ALTER TABLE navigation_nodes ADD COLUMN time_sec DOUBLE PRECISION;

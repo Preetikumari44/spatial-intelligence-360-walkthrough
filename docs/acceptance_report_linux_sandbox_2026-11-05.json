@@ -1,0 +1,145 @@
+{
+ "video": "/tmp/room.mp4",
+ "started": "2026-11-05T14:48:27",
+ "cuda_used": false,
+ "free_ram_mb": 3675,
+ "features": {
+  "colmap_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": "COLMAP not found (looked: bundled /home/claude/work/proj/Spatial-Intelligence-Full-Working-Regenerated/tools/colmap/bin/colmap; PATH colmap); run scripts\\install-colmap.ps1"
+  },
+  "open3d_pointcloud_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": ""
+  },
+  "open3d_mesh_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": "Open3D is not installed (pip install open3d, or open3d-xpu for Intel GPUs)."
+  },
+  "gaussian_splat_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": "PyTorch not installed; skipped by --skip-splat"
+  }
+ },
+ "stages": {
+  "probe": {
+   "status": "ok",
+   "seconds": 0.0
+  },
+  "frames": {
+   "status": "ok",
+   "seconds": 0.5
+  },
+  "camera_poses": {
+   "status": "ok",
+   "seconds": 5.7
+  },
+  "point_cloud": {
+   "status": "failed",
+   "seconds": 0.0,
+   "error": "Open3D is not installed (pip install open3d, or open3d-xpu for Intel GPUs)."
+  },
+  "mesh": {
+   "status": "failed",
+   "seconds": 0.0,
+   "error": "Open3D is not installed (pip install open3d, or open3d-xpu for Intel GPUs)."
+  }
+ },
+ "colmap": null,
+ "colmap_location": {
+  "found": false,
+  "path": null,
+  "source": "none",
+  "bin_dir": null,
+  "tried": [
+   "bundled /home/claude/work/proj/Spatial-Intelligence-Full-Working-Regenerated/tools/colmap/bin/colmap",
+   "PATH colmap"
+  ]
+ },
+ "camera_poses": {
+  "registered_images": 17,
+  "total_images": 17,
+  "registered_frames": 17,
+  "total_frames": 17,
+  "points": 1276,
+  "extents_model_units": {
+   "x": 4.546730149488642,
+   "y": 2.313809440775401,
+   "z": 2.167776068972372
+  },
+  "backend": "opencv-sfm"
+ },
+ "note_sfm": "camera poses came from the 'opencv-sfm' backend, so COLMAP was NOT tested",
+ "report_json": {
+  "stages": {
+   "camera_poses": {
+    "status": "ok",
+    "message": "17 of 17 images registered, 1276 sparse points (opencv-sfm)",
+    "backend": "opencv-sfm",
+    "registered_images": 17,
+    "total_images": 17,
+    "points": 1276,
+    "details": {
+     "backend": "opencv-sfm",
+     "frames_used": 17,
+     "frames_registered": 17,
+     "pairs_verified": 81,
+     "focal_px_full_frame": 562.5,
+     "focal_source": "self-calibration",
+     "focal_quality": "good",
+     "focal_cost": 0.0002,
+     "bundle_adjustment_runs": 4,
+     "bundle_adjustment": {
+      "rms_before": 0.2849204474981114,
+      "rms_after": 0.26277887007520273,
+      "applied": true
+     },
+     "mean_reprojection_px": 0.292,
+     "limitations": [
+      "no lens distortion model",
+      "sequential-window matching, no loop closure",
+      "arbitrary scale"
+     ]
+    }
+   }
+  },
+  "outputs": [],
+  "execution": {
+   "sfm_backend": "opencv",
+   "sfm_device": "cpu",
+   "memory_plan": {
+    "tier": "low",
+    "max_side": 720,
+    "max_images": 60,
+    "max_features": 3000,
+    "threads": 1,
+    "exhaustive_limit": 60,
+    "overlap": 10,
+    "note": "low-memory mode: smaller images, fewer frames, 2 threads"
+   },
+   "free_ram_mb_at_start": 3653,
+   "open3d_device": "CPU:0",
+   "torch_device": "cpu",
+   "cpu_threads": 1,
+   "device_notes": [
+    "Open3D is not installed: Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\nModuleNotFoundError: No module named 'open3d'\n",
+    "PyTorch is not installed: Gaussian training unavailable"
+   ],
+   "cuda_required": false
+  },
+  "updated_at": "2026-11-05T14:48:33"
+ },
+ "note_frontend": "Loading the outputs in the browser viewer is a manual step: open the project in the app and check the 3D Digital Twin tab."
+}

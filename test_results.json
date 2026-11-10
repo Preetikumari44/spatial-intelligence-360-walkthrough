@@ -1,0 +1,70 @@
+﻿{
+    "Python unit tests (pytest)":  {
+                                       "detail":  "1 failed, 123 passed, 3 warnings in 355.13s (0:05:55)",
+                                       "status":  "FAIL"
+                                   },
+    "COLMAP executable, DLLs and options":  {
+                                                "detail":  "see scripts\\check-colmap.ps1",
+                                                "status":  "PASS"
+                                            },
+    "synthetic room video: stage probe":  {
+                                              "detail":  "",
+                                              "status":  "PASS"
+                                          },
+    "synthetic room video: stage frames":  {
+                                               "detail":  "",
+                                               "status":  "PASS"
+                                           },
+    "synthetic room video: stage camera_poses":  {
+                                                     "detail":  "",
+                                                     "status":  "PASS"
+                                                 },
+    "synthetic room video: stage point_cloud":  {
+                                                    "detail":  "",
+                                                    "status":  "PASS"
+                                                },
+    "synthetic room video: stage mesh":  {
+                                             "detail":  "",
+                                             "status":  "PASS"
+                                         },
+    "synthetic room video: stage gaussian_splat":  {
+                                                       "detail":  "",
+                                                       "status":  "PASS"
+                                                   },
+    "synthetic room video: colmap_cpu":  {
+                                             "detail":  "version 4.2.1 (override: C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe); CUDA=None; dense MVS: False; registered 16/16 images, 2766 sparse points",
+                                             "status":  "PASS"
+                                         },
+    "synthetic room video: open3d_pointcloud_cpu":  {
+                                                        "detail":  "pointcloud.ply: 2680 points reloaded, 2542 after outlier filtering",
+                                                        "status":  "PASS"
+                                                    },
+    "synthetic room video: open3d_mesh_cpu":  {
+                                                  "detail":  "mesh.obj: 47633 vertices, 91858 triangles reloaded",
+                                                  "status":  "PASS"
+                                              },
+    "synthetic room video: gaussian_splat_cpu":  {
+                                                     "detail":  "torch 2.15.0+cpu, device cpu (project\u0027s own PyTorch trainer, not the CUDA 3DGS rasterizer); gaussians.ply reloaded, 2000 gaussians",
+                                                     "status":  "PASS"
+                                                 },
+    "Services: PostgreSQL + AI + backend health":  {
+                                                       "detail":  "start them with scripts\\start-all.ps1, then rerun",
+                                                       "status":  "NOT TESTED"
+                                                   },
+    "Java compile + backend tests (mvn test)":  {
+                                                    "detail":  "",
+                                                    "status":  "PASS"
+                                                },
+    "Frontend TypeScript (tsc --noEmit)":  {
+                                               "detail":  "",
+                                               "status":  "PASS"
+                                           },
+    "Next.js production build":  {
+                                     "detail":  "",
+                                     "status":  "PASS"
+                                 },
+    "Browser: Virtual Walkthrough / Digital Twin render":  {
+                                                               "detail":  "manual: open the project in the app after a successful job",
+                                                               "status":  "NOT TESTED"
+                                                           }
+}

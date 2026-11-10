@@ -1,0 +1,72 @@
+.env
+data/
+node_modules/
+.next/
+target/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Python environments and caches
+**/.venv/
+**/venv/
+**/__pycache__/
+**/.pytest_cache/
+*.pyc
+
+# Node and frontend build
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Database and logs
+*.db
+*.sqlite
+*.log
+
+# AI model weights and generated models
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.engine
+
+# Generated data and storage
+data/
+
+# Local IDE and runtime files
+.run/
+.vscode/
+.idea/
+
+# Process IDs and runtime logs
+*.pid
+*.log
+
+# Local test outputs
+
+# Ignore unused root npm lockfile
+/package-lock.json
+
+# Local IDE and runtime files
+.run/
+.vscode/
+.idea/
+*.pid
+*.log
+
+# Generated TypeScript metadata
+**/tsconfig.tsbuildinfo
+
+# Debug symbols
+*.pdb
+
+# Bundled COLMAP binaries (install separately)
+tools/colmap/

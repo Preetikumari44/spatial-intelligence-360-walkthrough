@@ -1,0 +1,163 @@
+{
+ "video": "/tmp/room.mp4",
+ "started": "2026-11-05T03:59:10",
+ "cuda_used": false,
+ "free_ram_mb": 3609,
+ "features": {
+  "colmap_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": "COLMAP not found; set COLMAP_BIN in .env"
+  },
+  "open3d_pointcloud_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "yes",
+   "generated": "yes",
+   "detail": "pointcloud.ply: 1686 points reloaded, 1618 after outlier filtering"
+  },
+  "open3d_mesh_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "no",
+   "generated": "no",
+   "detail": "No depth source for mesh fusion: transformers/PyTorch missing: No module named 'transformers'. The point cloud and tour are unaffected."
+  },
+  "gaussian_splat_cpu": {
+   "installed": "no",
+   "initialized": "no",
+   "tested": "no",
+   "generated": "no",
+   "detail": "PyTorch not installed; no splat produced: PyTorch is not installed, so Gaussian splats cannot be trained (No module named 'torch')."
+  }
+ },
+ "stages": {
+  "probe": {
+   "status": "ok",
+   "seconds": 0.0
+  },
+  "frames": {
+   "status": "ok",
+   "seconds": 0.3
+  },
+  "camera_poses": {
+   "status": "ok",
+   "seconds": 10.2
+  },
+  "point_cloud": {
+   "status": "ok",
+   "seconds": 0.0
+  },
+  "mesh": {
+   "status": "unavailable",
+   "seconds": 0.0,
+   "error": "No depth source for mesh fusion: transformers/PyTorch missing: No module named 'transformers'. The point cloud and tour are unaffected."
+  },
+  "gaussian_splat": {
+   "status": "unavailable",
+   "seconds": 0.0,
+   "error": "PyTorch is not installed, so Gaussian splats cannot be trained (No module named 'torch')."
+  }
+ },
+ "colmap": null,
+ "camera_poses": {
+  "registered_images": 20,
+  "total_images": 20,
+  "registered_frames": 20,
+  "total_frames": 20,
+  "points": 1722,
+  "extents_model_units": {
+   "x": 24.162998808706476,
+   "y": 14.229377483222134,
+   "z": 10.140389563657685
+  },
+  "backend": "opencv-sfm"
+ },
+ "note_sfm": "camera poses came from the 'opencv-sfm' backend, so COLMAP was NOT tested",
+ "report_json": {
+  "stages": {
+   "camera_poses": {
+    "status": "ok",
+    "message": "20 of 20 images registered, 1722 sparse points (opencv-sfm)",
+    "backend": "opencv-sfm",
+    "registered_images": 20,
+    "total_images": 20,
+    "points": 1722,
+    "details": {
+     "backend": "opencv-sfm",
+     "frames_used": 20,
+     "frames_registered": 20,
+     "pairs_verified": 98,
+     "focal_px_full_frame": 285.3,
+     "focal_source": "self-calibration",
+     "focal_quality": "weak",
+     "focal_cost": 0.0005,
+     "bundle_adjustment_runs": 5,
+     "bundle_adjustment": {
+      "rms_before": 0.7457559552598079,
+      "rms_after": 0.638752388565241,
+      "applied": true
+     },
+     "mean_reprojection_px": 0.602,
+     "limitations": [
+      "no lens distortion model",
+      "sequential-window matching, no loop closure",
+      "arbitrary scale"
+     ]
+    }
+   },
+   "point_cloud": {
+    "status": "ok",
+    "message": "1686 points after removing 36 outliers",
+    "device_used": "CPU:0",
+    "points": 1686,
+    "kind": "sparse SfM points"
+   },
+   "mesh": {
+    "status": "unavailable",
+    "message": "No depth source for mesh fusion: transformers/PyTorch missing: No module named 'transformers'. The point cloud and tour are unaffected."
+   },
+   "gaussian_splat": {
+    "status": "unavailable",
+    "message": "PyTorch is not installed, so Gaussian splats cannot be trained (No module named 'torch')."
+   }
+  },
+  "outputs": [
+   {
+    "key": "pointcloud",
+    "path": "jobs/a/work/outputs/pointcloud.ply",
+    "kind": "ply",
+    "size_bytes": 86250,
+    "label": "Sparse point cloud (PLY)",
+    "points": 1686
+   }
+  ],
+  "execution": {
+   "sfm_backend": "opencv",
+   "sfm_device": "cpu",
+   "memory_plan": {
+    "tier": "low",
+    "max_side": 720,
+    "max_images": 60,
+    "max_features": 3000,
+    "threads": 1,
+    "exhaustive_limit": 60,
+    "overlap": 10,
+    "note": "low-memory mode: smaller images, fewer frames, 2 threads"
+   },
+   "free_ram_mb_at_start": 3486,
+   "open3d_device": "CPU:0",
+   "torch_device": "cpu",
+   "cpu_threads": 1,
+   "device_notes": [
+    "Open3D SYCL not usable (the installed wheel has no SYCL device; pip install open3d-xpu is Intel's preview wheel for Windows); using CPU",
+    "PyTorch is not installed: Gaussian training unavailable"
+   ],
+   "cuda_required": false
+  },
+  "updated_at": "2026-11-05T03:59:22"
+ },
+ "note_frontend": "Loading the outputs in the browser viewer is a manual step: open the project in the app and check the 3D Digital Twin tab."
+}

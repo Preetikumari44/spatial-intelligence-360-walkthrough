@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 20% 98%;
+  --foreground: 222 30% 12%;
+  --card: 0 0% 100%;
+  --border: 214 20% 88%;
+  --muted: 214 25% 94%;
+  --muted-foreground: 215 14% 40%;
+  --primary: 221 83% 48%;
+  --primary-foreground: 0 0% 100%;
+  --destructive: 0 72% 46%;
+  --warn: 32 92% 38%;
+  --ok: 142 64% 30%;
+}
+.dark {
+  --background: 224 28% 8%;
+  --foreground: 210 20% 94%;
+  --card: 224 24% 11%;
+  --border: 222 18% 20%;
+  --muted: 222 20% 15%;
+  --muted-foreground: 215 14% 66%;
+  --primary: 217 91% 62%;
+  --primary-foreground: 224 28% 8%;
+  --destructive: 0 80% 62%;
+  --warn: 38 92% 58%;
+  --ok: 142 60% 55%;
+}
+body { @apply bg-background text-foreground antialiased; }
+* { @apply border-border; }
+.pano-hotspot { cursor: pointer; }

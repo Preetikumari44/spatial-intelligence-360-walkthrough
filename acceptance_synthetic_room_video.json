@@ -1,0 +1,344 @@
+{
+ "video": "C:\\Users\\PREETI\\AppData\\Local\\Temp\\spatial_synthetic_room.mp4",
+ "started": "2026-11-09T10:33:15",
+ "cuda_used": false,
+ "free_ram_mb": 2724,
+ "features": {
+  "colmap_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "yes",
+   "generated": "yes",
+   "detail": "version 4.2.1 (override: C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe); CUDA=None; dense MVS: False; registered 16/16 images, 2766 sparse points"
+  },
+  "open3d_pointcloud_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "yes",
+   "generated": "yes",
+   "detail": "pointcloud.ply: 2680 points reloaded, 2542 after outlier filtering"
+  },
+  "open3d_mesh_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "yes",
+   "generated": "yes",
+   "detail": "mesh.obj: 47633 vertices, 91858 triangles reloaded"
+  },
+  "gaussian_splat_cpu": {
+   "installed": "yes",
+   "initialized": "yes",
+   "tested": "yes",
+   "generated": "yes",
+   "detail": "torch 2.15.0+cpu, device cpu (project's own PyTorch trainer, not the CUDA 3DGS rasterizer); gaussians.ply reloaded, 2000 gaussians"
+  }
+ },
+ "stages": {
+  "probe": {
+   "status": "ok",
+   "seconds": 0.0
+  },
+  "frames": {
+   "status": "ok",
+   "seconds": 1.2
+  },
+  "camera_poses": {
+   "status": "ok",
+   "seconds": 21.2
+  },
+  "point_cloud": {
+   "status": "ok",
+   "seconds": 0.1
+  },
+  "mesh": {
+   "status": "ok",
+   "seconds": 21.7
+  },
+  "gaussian_splat": {
+   "status": "ok",
+   "seconds": 139.6
+  }
+ },
+ "colmap": {
+  "binary": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe",
+  "version": "4.2.1",
+  "cuda": null,
+  "banner": "COLMAP 4.2.1 (Commit bd1fcf6 on 2026-09-29 without GPU support, boost hash maps)\nUsage:\n  colmap [command] [options]",
+  "commands_probed": {
+   "feature_extractor": 51,
+   "exhaustive_matcher": 61,
+   "sequential_matcher": 73,
+   "mapper": 82,
+   "model_converter": 11,
+   "bundle_adjuster": 31,
+   "image_undistorter": 24,
+   "patch_match_stereo": 36,
+   "stereo_fusion": 25
+  },
+  "help_errors": {}
+ },
+ "colmap_location": {
+  "found": true,
+  "path": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe",
+  "source": "override",
+  "bin_dir": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin",
+  "tried": [
+   "COLMAP_BIN=C:/Users/PREETI/Desktop/throughwalk/Spatial-Intelligence-COMPLETE-WINDOWS-READY/tools/colmap/bin/colmap.exe"
+  ]
+ },
+ "camera_poses": {
+  "registered_images": 16,
+  "total_images": 16,
+  "registered_frames": 16,
+  "total_frames": 16,
+  "points": 2766,
+  "extents_model_units": {
+   "x": 27.1807831038685,
+   "y": 13.293244937984348,
+   "z": 12.221551570400834
+  },
+  "backend": "colmap"
+ },
+ "report_json": {
+  "stages": {
+   "colmap_feature_extractor": {
+    "status": "ok",
+    "message": "feature_extractor finished",
+    "plan": "minimal",
+    "database": {
+     "exists": true,
+     "images": 16,
+     "images_with_keypoints": 16,
+     "total_keypoints": 32067,
+     "images_with_descriptors": 16,
+     "verified_pairs": 0,
+     "raw_match_pairs": 0,
+     "average_keypoints_per_image": 2004.2
+    }
+   },
+   "colmap_exhaustive_matcher": {
+    "status": "ok",
+    "message": "exhaustive_matcher finished",
+    "plan": "minimal",
+    "database": {
+     "exists": true,
+     "images": 16,
+     "images_with_keypoints": 16,
+     "total_keypoints": 32067,
+     "images_with_descriptors": 16,
+     "verified_pairs": 120,
+     "raw_match_pairs": 120
+    }
+   },
+   "colmap_mapper": {
+    "status": "ok",
+    "message": "mapper finished",
+    "plan": "minimal",
+    "database": null
+   },
+   "camera_poses": {
+    "status": "ok",
+    "message": "16 of 16 images registered, 2766 sparse points (colmap)",
+    "backend": "colmap",
+    "registered_images": 16,
+    "total_images": 16,
+    "points": 2766,
+    "details": {
+     "backend": "colmap",
+     "sparse_models": 1,
+     "registered_per_model": [
+      16
+     ],
+     "colmap_version": "4.2.1",
+     "frames_used": 16,
+     "frames_registered": 16,
+     "device": "cpu",
+     "memory_plan": "minimal",
+     "image_side": 512
+    }
+   },
+   "point_cloud": {
+    "status": "ok",
+    "message": "2680 points after removing 86 outliers",
+    "device_used": "CPU:0",
+    "points": 2680,
+    "kind": "sparse SfM points"
+   },
+   "mesh": {
+    "status": "ok",
+    "message": "91858 triangles from 16 fused depth maps",
+    "device_used": "CPU:0",
+    "depth_source": "monocular-depth",
+    "fused_frames": 16,
+    "skipped_frames": 0,
+    "voxel_size_model_units": 0.16988,
+    "note": "Depth is monocular and fitted to the SfM points: shapes are approximate, not survey-grade."
+   },
+   "gaussian_splat": {
+    "status": "ok",
+    "message": "2000 Gaussians trained for 100 iterations on CPU (PSNR +7.65 dB on training views)",
+    "device_used": "cpu",
+    "initialised_from": "dense TSDF surface points",
+    "stats": {
+     "views_total": 16,
+     "views_train": 14,
+     "views_heldout": 2,
+     "gaussians": 2000,
+     "device": "cpu",
+     "psnr_train_before": 16.857041835784912,
+     "psnr_heldout_before": 16.955397605895996,
+     "iterations_run": 100,
+     "iterations_requested": 100,
+     "train_seconds": 135.0,
+     "psnr_train_after": 24.510222911834717,
+     "psnr_heldout_after": 23.993614196777344,
+     "pruned_low_opacity": 0
+    },
+    "rendering": {
+     "open3d": {
+      "ok": false,
+      "message": "Disabled in CPU-only mode; using the built-in CPU rasteriser"
+     },
+     "builtin": {
+      "ok": true
+     }
+    },
+    "formats": [
+     "ply",
+     "splat",
+     "spz (experimental)"
+    ],
+    "note": "Low-resolution CPU trainer without adaptive densification: a compact preview-quality model, not a CUDA-class 3DGS result."
+   }
+  },
+  "outputs": [
+   {
+    "key": "pointcloud",
+    "path": "jobs/a/work/outputs/pointcloud.ply",
+    "kind": "ply",
+    "size_bytes": 136944,
+    "label": "Sparse point cloud (PLY)",
+    "points": 2680
+   },
+   {
+    "key": "mesh_ply",
+    "path": "jobs/a/work/outputs/mesh.ply",
+    "kind": "ply",
+    "size_bytes": 3623761,
+    "label": "Mesh (PLY, vertex colours)",
+    "triangles": 91858
+   },
+   {
+    "key": "mesh_obj",
+    "path": "jobs/a/work/outputs/mesh.obj",
+    "kind": "obj",
+    "size_bytes": 7707810,
+    "label": "Mesh (OBJ)",
+    "triangles": 91858
+   },
+   {
+    "key": "pointcloud_dense",
+    "path": "jobs/a/work/outputs/pointcloud_dense.ply",
+    "kind": "ply",
+    "size_bytes": 2630131,
+    "label": "Dense surface points (PLY)",
+    "points": 51566
+   },
+   {
+    "key": "gaussian_ply",
+    "path": "jobs/a/work/outputs/gaussians.ply",
+    "kind": "gaussian-ply",
+    "size_bytes": 136414,
+    "label": "Gaussian splat (PLY)",
+    "gaussians": 2000
+   },
+   {
+    "key": "gaussian_splat",
+    "path": "jobs/a/work/outputs/gaussians.splat",
+    "kind": "splat",
+    "size_bytes": 64000,
+    "label": "Gaussian splat (.splat)",
+    "gaussians": 2000
+   },
+   {
+    "key": "gaussian_spz",
+    "path": "jobs/a/work/outputs/gaussians.spz",
+    "kind": "spz",
+    "size_bytes": 30374,
+    "label": "Gaussian splat (SPZ, experimental)",
+    "gaussians": 2000
+   },
+   {
+    "key": "splat_preview",
+    "path": "jobs/a/work/outputs/splat_preview.png",
+    "kind": "png",
+    "size_bytes": 229561,
+    "label": "Frame vs. Gaussian render (built-in rasteriser)",
+    "renderer": "builtin-torch-rasteriser"
+   }
+  ],
+  "execution": {
+   "sfm_backend": "colmap",
+   "sfm_device": "cpu",
+   "memory_plan": {
+    "tier": "minimal",
+    "max_side": 512,
+    "max_images": 36,
+    "max_features": 2000,
+    "threads": 1,
+    "exhaustive_limit": 36,
+    "overlap": 8,
+    "note": "minimal-memory mode: 512 px images, 36 frames, 1 thread (expect a coarser model)"
+   },
+   "free_ram_mb_at_start": 2510,
+   "open3d_device": "CPU:0",
+   "torch_device": "cpu",
+   "cpu_threads": 11,
+   "device_notes": [
+    "XPU_MODE=0: Intel acceleration disabled by configuration"
+   ],
+   "cuda_required": false,
+   "colmap": {
+    "binary": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe",
+    "version": "4.2.1",
+    "cuda": null,
+    "banner": "COLMAP 4.2.1 (Commit bd1fcf6 on 2026-09-29 without GPU support, boost hash maps)\nUsage:\n  colmap [command] [options]",
+    "commands_probed": {
+     "feature_extractor": 51,
+     "exhaustive_matcher": 61,
+     "sequential_matcher": 73,
+     "mapper": 82,
+     "model_converter": 11,
+     "bundle_adjuster": 31,
+     "image_undistorter": 24,
+     "patch_match_stereo": 36,
+     "stereo_fusion": 25
+    },
+    "help_errors": {}
+   },
+   "colmap_location": {
+    "found": true,
+    "path": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin\\colmap.exe",
+    "source": "override",
+    "bin_dir": "C:\\Users\\PREETI\\Desktop\\throughwalk\\Spatial-Intelligence-COMPLETE-WINDOWS-READY\\tools\\colmap\\bin",
+    "tried": [
+     "COLMAP_BIN=C:/Users/PREETI/Desktop/throughwalk/Spatial-Intelligence-COMPLETE-WINDOWS-READY/tools/colmap/bin/colmap.exe"
+    ]
+   },
+   "colmap_cuda": null,
+   "colmap_dense_mvs": {
+    "supported": false,
+    "reason": "COLMAP 4.2.1 does not report CUDA support (treated as CPU-only); patch_match_stereo requires CUDA. Dense geometry comes from the Open3D depth-fusion path instead."
+   },
+   "colmap_options_used": {
+    "extract_gpu": "FeatureExtraction.use_gpu",
+    "extract_max_size": "FeatureExtraction.max_image_size",
+    "max_features": "SiftExtraction.max_num_features",
+    "match_gpu": "FeatureMatching.use_gpu"
+   },
+   "colmap_options_skipped": []
+  },
+  "updated_at": "2026-11-09T10:36:25"
+ },
+ "note_frontend": "Loading the outputs in the browser viewer is a manual step: open the project in the app and check the 3D Digital Twin tab."
+}

@@ -1,0 +1,308 @@
+{
+ "short": {
+  "probe": [
+   200,
+   {
+    "width": 640,
+    "height": 480,
+    "fps": 15.0,
+    "frame_count": 90,
+    "duration_sec": 6.0,
+    "looks_equirectangular": false,
+    "warnings": []
+   }
+  ],
+  "frames": 200,
+  "n_frames": null,
+  "pipelineA": 200,
+  "A": {
+   "nodes": 12,
+   "links": 22,
+   "all_verified": true,
+   "cov": {
+    "segments_found": 1,
+    "viewpoints_left_out": 0,
+    "sequence_links_verified": 11,
+    "sequence_links_total": 11,
+    "revisit_links": 0
+   },
+   "methods": [
+    "essential-matrix",
+    "feature-centroid",
+    "feature-scale",
+    "feature-shift",
+    "none"
+   ],
+   "validation": true
+  },
+  "recon": 200,
+  "recon_out": {
+   "registered_images": 12,
+   "total_images": 12,
+   "registered_frames": 12,
+   "total_frames": 12,
+   "points": 1142,
+   "extents_model_units": {
+    "x": 4.285684502135549,
+    "y": 2.1728930759306637,
+    "z": 2.059406020433164
+   },
+   "backend": "opencv-sfm"
+  },
+  "tour": 200,
+  "B": {
+   "nodes": 8,
+   "links": 21,
+   "graph": {
+    "method": "shared 3D landmarks (feature correspondences triangulated by structure from motion)",
+    "evidence": "tracked feature observations",
+    "min_shared_landmarks": 20,
+    "viewpoints_considered": 8,
+    "viewpoints_in_walkthrough": 8,
+    "viewpoints_left_out": 0,
+    "components_found": 1,
+    "links": 21,
+    "neighbour_links": 21,
+    "loop_closures": 0
+   },
+   "validation": true,
+   "kinds": [
+    "covisibility"
+   ],
+   "min_shared_in_edges": 294
+  }
+ },
+ "long": {
+  "probe": [
+   200,
+   {
+    "width": 640,
+    "height": 480,
+    "fps": 15.0,
+    "frame_count": 240,
+    "duration_sec": 16.0,
+    "looks_equirectangular": false,
+    "warnings": []
+   }
+  ],
+  "frames": 200,
+  "n_frames": null,
+  "pipelineA": 200,
+  "A": {
+   "nodes": 20,
+   "links": 64,
+   "all_verified": true,
+   "cov": {
+    "segments_found": 1,
+    "viewpoints_left_out": 0,
+    "sequence_links_verified": 19,
+    "sequence_links_total": 19,
+    "revisit_links": 13
+   },
+   "methods": [
+    "essential-matrix",
+    "feature-centroid",
+    "feature-scale",
+    "feature-shift",
+    "none"
+   ],
+   "validation": true
+  },
+  "recon": 200,
+  "recon_out": {
+   "registered_images": 20,
+   "total_images": 20,
+   "registered_frames": 20,
+   "total_frames": 20,
+   "points": 1342,
+   "extents_model_units": {
+    "x": 4.884524836410929,
+    "y": 2.422421959782869,
+    "z": 2.4834446656709845
+   },
+   "backend": "opencv-sfm"
+  },
+  "tour": 200,
+  "B": {
+   "nodes": 13,
+   "links": 34,
+   "graph": {
+    "method": "shared 3D landmarks (feature correspondences triangulated by structure from motion)",
+    "evidence": "tracked feature observations",
+    "min_shared_landmarks": 20,
+    "viewpoints_considered": 13,
+    "viewpoints_in_walkthrough": 13,
+    "viewpoints_left_out": 0,
+    "components_found": 1,
+    "links": 34,
+    "neighbour_links": 34,
+    "loop_closures": 0
+   },
+   "validation": true,
+   "kinds": [
+    "covisibility"
+   ],
+   "min_shared_in_edges": 284
+  }
+ },
+ "static": {
+  "probe": [
+   200,
+   {
+    "width": 640,
+    "height": 480,
+    "fps": 15.0,
+    "frame_count": 60,
+    "duration_sec": 4.0,
+    "looks_equirectangular": false,
+    "warnings": []
+   }
+  ],
+  "frames": 422,
+  "frames_err": {
+   "detail": "The camera hardly moves in this video (measured motion 0.00, need at least 0.25). Structure from motion needs the camera to travel; walk through the space instead of filming from one spot."
+  }
+ },
+ "pan": {
+  "probe": [
+   200,
+   {
+    "width": 640,
+    "height": 480,
+    "fps": 15.0,
+    "frame_count": 90,
+    "duration_sec": 6.0,
+    "looks_equirectangular": false,
+    "warnings": []
+   }
+  ],
+  "frames": 200,
+  "n_frames": null,
+  "pipelineA": 200,
+  "A": {
+   "nodes": 31,
+   "links": 60,
+   "all_verified": true,
+   "cov": {
+    "segments_found": 1,
+    "viewpoints_left_out": 0,
+    "sequence_links_verified": 30,
+    "sequence_links_total": 30,
+    "revisit_links": 0
+   },
+   "methods": [
+    "feature-shift"
+   ],
+   "validation": true
+  },
+  "recon": 200,
+  "recon_out": {
+   "registered_images": 31,
+   "total_images": 31,
+   "registered_frames": 31,
+   "total_frames": 31,
+   "points": 16592,
+   "extents_model_units": {
+    "x": 29.030746213520114,
+    "y": 7.96605427828481,
+    "z": 0.07252755228258323
+   },
+   "backend": "opencv-sfm"
+  },
+  "tour": 200,
+  "B": {
+   "nodes": 13,
+   "links": 29,
+   "graph": {
+    "method": "shared 3D landmarks (feature correspondences triangulated by structure from motion)",
+    "evidence": "tracked feature observations",
+    "min_shared_landmarks": 20,
+    "viewpoints_considered": 13,
+    "viewpoints_in_walkthrough": 13,
+    "viewpoints_left_out": 0,
+    "components_found": 1,
+    "links": 29,
+    "neighbour_links": 29,
+    "loop_closures": 0
+   },
+   "validation": true,
+   "kinds": [
+    "covisibility"
+   ],
+   "min_shared_in_edges": 937
+  }
+ },
+ "second": {
+  "probe": [
+   200,
+   {
+    "width": 640,
+    "height": 480,
+    "fps": 15.0,
+    "frame_count": 120,
+    "duration_sec": 8.0,
+    "looks_equirectangular": false,
+    "warnings": []
+   }
+  ],
+  "frames": 200,
+  "n_frames": null,
+  "pipelineA": 200,
+  "A": {
+   "nodes": 17,
+   "links": 32,
+   "all_verified": true,
+   "cov": {
+    "segments_found": 1,
+    "viewpoints_left_out": 0,
+    "sequence_links_verified": 16,
+    "sequence_links_total": 16,
+    "revisit_links": 0
+   },
+   "methods": [
+    "essential-matrix",
+    "feature-centroid",
+    "feature-scale",
+    "feature-shift",
+    "none"
+   ],
+   "validation": true
+  },
+  "recon": 200,
+  "recon_out": {
+   "registered_images": 17,
+   "total_images": 17,
+   "registered_frames": 17,
+   "total_frames": 17,
+   "points": 1276,
+   "extents_model_units": {
+    "x": 4.546730149488642,
+    "y": 2.313809440775401,
+    "z": 2.167776068972372
+   },
+   "backend": "opencv-sfm"
+  },
+  "tour": 200,
+  "B": {
+   "nodes": 11,
+   "links": 29,
+   "graph": {
+    "method": "shared 3D landmarks (feature correspondences triangulated by structure from motion)",
+    "evidence": "tracked feature observations",
+    "min_shared_landmarks": 20,
+    "viewpoints_considered": 11,
+    "viewpoints_in_walkthrough": 11,
+    "viewpoints_left_out": 0,
+    "components_found": 1,
+    "links": 29,
+    "neighbour_links": 29,
+    "loop_closures": 0
+   },
+   "validation": true,
+   "kinds": [
+    "covisibility"
+   ],
+   "min_shared_in_edges": 278
+  }
+ }
+}
